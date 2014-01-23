@@ -18,7 +18,8 @@ module Pouf
     end
 
     def alias2filename name
-      Dir["#{SOUNDS_DIR}/#{name}.*"].first
+      fns = Dir["#{SOUNDS_DIR}/#{name}.*"]
+      fns.first if fns
     end
 
     def filename2alias fname
@@ -40,23 +41,28 @@ module Pouf
     end
 
     def list
-      Dir.entries(SOUNDS_DIR).map { |f| filename2alias f }
+      Dir.entries(SOUNDS_DIR).select{ |f| f !~ /^\./ }.map do |f|
+        filename2alias f
+      end
     end
 
     def mv from, to
       f1 = alias2filename from
-      f2 = alias2filename to
+      f2 = f1.sub(/\/#{from}\./, "/#{to}.")
 
-      FileUtils.mv f1, f2
+      FileUtils.mv(f1, f2) if f1 and f2
     end
 
     def play *aliases
-      aliases.each { |a| play_sound (alias2filename a).first }
+      aliases.each do |a|
+        fname = alias2filename a
+        play_sound fname if fname
+      end
     end
 
     def rm *names
       names.each do |n|
-        fs = alias2filenames n
+        fs = alias2filename n
         if fs
           FileUtils.rm fs
         else
