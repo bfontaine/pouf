@@ -16,6 +16,16 @@ Note: for now it works only on OS X.
 gem install pouf
 ```
 
+## Configure
+
+Define the `SYS_CMD` variable in `~/.pouf/.pouf_config.rb`. It will be the
+command used to play a sound.
+
+```ruby
+# ~/.pouf/.pouf_config.rb
+SYS_CMD = ['cmd', 'arg1', 'arg2', ...]
+```
+
 ## Usage
 
 From the command-line:

@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 require 'fileutils'
+require '~/.pouf/.pouf_config'
 
 module Pouf
   class << self
@@ -13,14 +14,8 @@ module Pouf
     end
 
     def play_sound filename
-      # only OSX for now
-      if RUBY_PLATFORM =~ /darwin/
-        system 'afplay', filename if filename
-      else
-        # if you know a command that can do the job, feel free to make
-        # a pull request at github.com/bfontaine/pouf
-        puts 'pouf only works on OSX for now'
-      end
+      SYS_CMD.insert(-1, filename) if filename
+      system *SYS_CMD
     end
 
     def alias2filename name
