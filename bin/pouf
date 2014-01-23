@@ -1,0 +1,43 @@
+#! /usr/bin/env ruby
+# -*- coding: UTF-8 -*-
+
+require 'pouf'
+
+def show_help
+  puts <<-EOH
+Usage:
+  pouf [command] [args]
+
+Available commands:
+  add <alias> <filename> - Add a new sound by copying <filename>
+  ls                     - List all available sounds
+  play <alias>           - Play a sound
+  rm <alias>             - Remove a sound
+
+If the command doesn't exist, pouf will assume it's a sound alias. This allows
+for shorter commands, e.g. `pouf bar` instead of `pouf play bar`.
+  EOH
+  exit
+end
+
+Pouf.init
+cmd = ARGV.shift
+
+case cmd
+when 'add' then
+  name, filename = ARGV
+  show_help unless name and filename
+  Pouf.add(name, filename)
+when 'ls' then
+  puts Pouf.list.map{ |s| "  - #{s}" }.join("\n")
+when 'mv' then
+  a1, a2 = ARGV
+  show_help unless a1 and a2
+  Pouf.mv(a1, a2)
+when 'rm' then
+  show_help if ARGV.empty?
+  Pouf.rm(*ARGV)
+else
+  show_help if !cmd
+  Pouf.play cmd == 'play' ? ARGV.first : cmd
+end
