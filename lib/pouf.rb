@@ -9,18 +9,29 @@ module Pouf
     SOUNDS_DIR = File.expand_path("~/.pouf/sounds")
 
     def version
-      '0.1.0'
+      '0.1.1'
+    end
+
+    def play_cmd
+      return ENV['POUF_CMD'].split(' ') if ENV['POUF_CMD']
+      case RUBY_PLATFORM
+      when /darwin/ then ['afplay']
+      when /linux/  then ['mpg123', '-q']
+      else nil
+      end
     end
 
     def play_sound filename
-      # only OSX for now
-      if RUBY_PLATFORM =~ /darwin/
-        system 'afplay', filename if filename
+      return unless filename
+
+      cmd = play_cmd
+
+      if cmd
+        system *cmd, filename
       else
-        # if you know a command that can do the job, feel free to make
-        # a pull request at github.com/bfontaine/pouf
-        puts 'pouf only works on OSX for now'
+        puts 'pouf is unsupported for your platform for now'
       end
+
     end
 
     def alias2filename name
