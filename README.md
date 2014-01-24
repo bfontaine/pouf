@@ -16,6 +16,15 @@ Note: for now it works only on OS X.
 gem install pouf
 ```
 
+# Configuration
+
+Set the environment variable `POUF_CMD` to whatever you want to use to play a 
+sound. Feel free to use the program you like, but the command must be 
+ready-to-use with a filename.
+
+For instance, Ubuntu users may want to add `export POUF_CMD="mpg123 -q"` to 
+their `.bashrc` file.
+
 ## Usage
 
 From the command-line:
