@@ -39,5 +39,5 @@ when 'rm' then
   Pouf.rm(*ARGV)
 else
   show_help if !cmd
-  Pouf.play cmd == 'play' ? ARGV.first : cmd
+  Pouf.play (cmd == 'play' ? ARGV.first : cmd), ENV['POUF_CMD']
 end

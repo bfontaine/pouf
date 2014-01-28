@@ -21,10 +21,10 @@ module Pouf
       end
     end
 
-    def play_sound filename
+    def play_sound filename, cmd=nil
       return unless filename
 
-      cmd = play_cmd
+      cmd ||= play_cmd
 
       if cmd
         system *cmd, filename
@@ -70,11 +70,9 @@ module Pouf
       FileUtils.mv(f1, f2) if f1 and f2
     end
 
-    def play *aliases
-      aliases.each do |a|
-        fname = alias2filename a
-        play_sound fname if fname
-      end
+    def play name, cmd=nil
+      fname = alias2filename name
+      play_sound(fname, cmd) if fname
     end
 
     def rm *names
