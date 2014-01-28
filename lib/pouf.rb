@@ -9,7 +9,7 @@ module Pouf
     SOUNDS_DIR = File.expand_path("~/.pouf/sounds")
 
     def version
-      '0.1.1'
+      '0.1.2'
     end
 
     def play_cmd
