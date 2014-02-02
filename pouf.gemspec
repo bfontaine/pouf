@@ -16,4 +16,9 @@ Gem::Specification.new do |s|
     s.files         = Dir['lib/*.rb']
     s.require_path  = 'lib'
     s.executables  << 'pouf'
+
+    s.add_development_dependency 'simplecov'
+    s.add_development_dependency 'rake'
+    s.add_development_dependency 'test-unit'
+    s.add_development_dependency 'coveralls'
 end

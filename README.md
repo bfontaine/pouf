@@ -1,6 +1,8 @@
 # pouf
 
+[![Build Status](https://travis-ci.org/bfontaine/pouf.png)](https://travis-ci.org/bfontaine/pouf)
 [![Gem Version](https://badge.fury.io/rb/pouf.png)](http://badge.fury.io/rb/pouf)
+[![Coverage Status](https://coveralls.io/repos/bfontaine/pouf/badge.png)](https://coveralls.io/r/bfontaine/pouf)
 
 **pouf** plays random sounds from your command-line. It started as a shell
 script for a joke, but it’s now a Ruby gem.
@@ -31,3 +33,14 @@ $ pouf mv <alias1> <alias2>
 $ pouf ls
 $ pouf [play] <alias>
 ```
+
+## Tests
+
+```
+$ git clone https://github.com/bfontaine/pouf.git
+$ cd pouf
+$ bundle install
+$ bundle exec rake test
+```
+
+It’ll generate a `coverage/index.html`, which you can open in a Web browser.
