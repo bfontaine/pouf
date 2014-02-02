@@ -15,8 +15,8 @@ module Pouf
     def play_cmd
       return ENV['POUF_CMD'].split(' ') if ENV['POUF_CMD']
       case RUBY_PLATFORM
-      when /darwin/ then ['afplay']
-      when /linux/  then ['mpg123', '-q']
+      when /darwin/ then %w[afplay]
+      when /linux/  then %w[mpg123 -q]
       else nil
       end
     end
@@ -31,7 +31,6 @@ module Pouf
       else
         puts 'pouf is unsupported for your platform for now'
       end
-
     end
 
     def alias2filename name
@@ -40,7 +39,7 @@ module Pouf
     end
 
     def filename2alias fname
-      fname =~ /(?:.*?\/)?(.+)\.\w+$/
+      fname =~ /(?:.*?\/)*(.+)\.\w+$/
       $1
     end
 
@@ -65,7 +64,7 @@ module Pouf
 
     def mv from, to
       f1 = alias2filename from
-      f2 = f1.sub(/\/#{from}\./, "/#{to}.")
+      f2 = f1.sub(%r[/#{from}\.], "/#{to}.")
 
       FileUtils.mv(f1, f2) if f1 and f2
     end
