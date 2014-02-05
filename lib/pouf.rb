@@ -35,7 +35,7 @@ module Pouf
 
     def alias2filename name
       fns = Dir["#{sounds_dir}/#{name}.*"]
-      fns.first if fns
+      fns.sort.first if fns
     end
 
     def filename2alias fname
