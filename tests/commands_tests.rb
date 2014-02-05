@@ -62,4 +62,38 @@ class PoufCommandsTests < Test::Unit::TestCase
     assert(Dir.exists?(d))
   end
 
+  # == Pouf#list == #
+
+  def test_pouf_list_empty
+    assert_equal([], Pouf.list)
+  end
+
+  def test_pouf_list
+    fs = ['foo', 'bar', 'qux']
+    fs.each { |f| FileUtils.touch "#{@sounds_dir}/#{f}.ext" }
+    assert_equal(fs.sort, Pouf.list.sort)
+  end
+
+  # == Pouf#mv == #
+
+  def test_pouf_mv
+    a1, a2 = 'foo', 'bar'
+
+    FileUtils.touch "#{@sounds_dir}/#{a1}.ext"
+
+    assert_nothing_raised { Pouf.mv a1, a2 }
+    assert(File.exists?("#{@sounds_dir}/#{a2}.ext"))
+    assert(!File.exists?("#{@sounds_dir}/#{a1}.ext"))
+  end
+
+  # == Pouf#rm == #
+
+  def test_pouf_rm_one_file
+    a = 'foo'
+    f = "#{@sounds_dir}/#{a}.ext"
+    FileUtils.touch f
+
+    assert_nothing_raised { Pouf.rm a }
+    assert(!File.exists?(f))
+  end
 end
