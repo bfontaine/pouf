@@ -6,7 +6,7 @@ require 'fileutils'
 module Pouf
   class << self
 
-    SOUNDS_DIR = File.expand_path("~/.pouf/sounds")
+    attr_accessor :sounds_dir
 
     def version
       '0.1.2'
@@ -34,7 +34,7 @@ module Pouf
     end
 
     def alias2filename name
-      fns = Dir["#{SOUNDS_DIR}/#{name}.*"]
+      fns = Dir["#{sounds_dir}/#{name}.*"]
       fns.first if fns
     end
 
@@ -49,15 +49,15 @@ module Pouf
       fname =~ /.+\.(\w+)$/
       ext = $1
 
-      FileUtils.cp fname, "#{SOUNDS_DIR}/#{name}.#{ext}"
+      FileUtils.cp fname, "#{sounds_dir}/#{name}.#{ext}"
     end
 
     def init
-      FileUtils.mkdir_p SOUNDS_DIR
+      FileUtils.mkdir_p sounds_dir
     end
 
     def list
-      Dir.entries(SOUNDS_DIR).select{ |f| f !~ /^\./ }.map do |f|
+      Dir.entries(sounds_dir).select{ |f| f !~ /^\./ }.map do |f|
         filename2alias f
       end
     end
@@ -86,4 +86,5 @@ module Pouf
     end
 
   end
+  @sounds_dir = File.expand_path("~/.pouf/sounds")
 end
