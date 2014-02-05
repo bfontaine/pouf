@@ -49,4 +49,17 @@ class PoufCommandsTests < Test::Unit::TestCase
     assert_equal(f, Pouf.alias2filename('foo'))
   end
 
+  # == Pouf#init == #
+
+  def test_pouf_init_dir_exists
+    assert_equal(@sounds_dir, Pouf.init[0])
+  end
+
+  def test_pouf_init_dir
+    d = "#{@sounds_dir}/foo"
+    Pouf.sounds_dir = d
+    assert_equal(d, Pouf.init[0])
+    assert(Dir.exists?(d))
+  end
+
 end
