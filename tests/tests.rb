@@ -20,6 +20,22 @@ end
 
 class PoufTests < Test::Unit::TestCase
 
+  def setup
+    ENV['POUF_CMD'] = nil
+  end
+
+  def override_ruby_platform v
+    @original_rplatform = RUBY_PLATFORM unless @original_rplatform
+
+    oldstderr, $stderr = $stderr, StringIO.new
+    Object.send(:const_set, 'RUBY_PLATFORM', v)
+    $stderr = oldstderr
+  end
+
+  def reset_ruby_platform
+    override_ruby_platform @original_rplatform
+  end
+
   # == Pouf#version == #
 
   def test_pouf_version
@@ -38,6 +54,24 @@ class PoufTests < Test::Unit::TestCase
     s = 'some random command'
     ENV['POUF_CMD'] = s
     assert_equal(%w[some random command], Pouf.play_cmd)
+  end
+
+  def test_pouf_play_cmd_platform_darwin
+    override_ruby_platform 'x86_64-darwin12.4.1'
+    assert_equal(%w[afplay], Pouf.play_cmd)
+    reset_ruby_platform
+  end
+
+  def test_pouf_play_cmd_platform_linux
+    override_ruby_platform 'linux'
+    assert_equal(%w[mpg123 -q], Pouf.play_cmd)
+    reset_ruby_platform
+  end
+
+  def test_pouf_play_cmd_platform_unsupported
+    override_ruby_platform 'foobarqux'
+    assert_nil(Pouf.play_cmd)
+    reset_ruby_platform
   end
 
   # == Pouf#filename2alias == #

@@ -96,4 +96,14 @@ class PoufCommandsTests < Test::Unit::TestCase
     assert_nothing_raised { Pouf.rm a }
     assert(!File.exists?(f))
   end
+
+  def test_pouf_rm_files
+    a = ['foo', 'bar', 'qux']
+    f = a.map { |e| "#{@sounds_dir}/#{e}.ext" }
+    f.map { |e| FileUtils.touch e }
+
+    assert_nothing_raised { Pouf.rm *a }
+    assert(!File.exists?(f[0]))
+    assert(!File.exists?(f[-1]))
+  end
 end
