@@ -9,13 +9,16 @@ class PoufCommandsTests < Test::Unit::TestCase
     @prev_cmd = ENV['POUF_CMD']
     ENV['POUF_CMD'] = 'echo'
     @prev_dir = Pouf.sounds_dir
+    @prev_path = Dir.pwd
     Pouf.sounds_dir = @sounds_dir = Dir.mktmpdir('pouf-tests')
+    Dir.chdir Dir.mktmpdir('pouf-tests')
   end
 
   def teardown
     Pouf.sounds_dir = @prev_dir
     FileUtils.rm_rf @sounds_dir
     ENV['POUF_CMD'] = @prev_cmd
+    Dir.chdir @prev_path
   end
 
   # == Pouf#alias2filename == #
@@ -113,5 +116,21 @@ class PoufCommandsTests < Test::Unit::TestCase
     f = "#{@sounds_dir}/foo.ext"
     assert_nothing_raised { Pouf.play_sound f, %w[touch] }
     assert(File.exists?(f))
+  end
+
+  # == Pouf#add == #
+
+  def test_pouf_add
+    a   = 'bar'
+    ext = 'ext'
+    content = 'hello'
+    source = "foo.#{ext}"
+    dest = "#{@sounds_dir}/#{a}.#{ext}"
+    File.open(source, 'w') { |f| f.write(content) }
+    assert_nothing_raised { Pouf.add a, source }
+
+    assert(File.exists?(source), 'it should preserve the original file')
+    assert(File.exists?(dest))
+    assert_equal(content, File.read(dest))
   end
 end
