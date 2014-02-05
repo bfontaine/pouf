@@ -106,4 +106,12 @@ class PoufCommandsTests < Test::Unit::TestCase
     assert(!File.exists?(f[0]))
     assert(!File.exists?(f[-1]))
   end
+
+  # == Pouf#play_sound == #
+
+  def test_pouf_play_sound_with_cmd
+    f = "#{@sounds_dir}/foo.ext"
+    assert_nothing_raised { Pouf.play_sound f, %w[touch] }
+    assert(File.exists?(f))
+  end
 end
