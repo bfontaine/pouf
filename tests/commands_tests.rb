@@ -133,4 +133,11 @@ class PoufCommandsTests < Test::Unit::TestCase
     assert(File.exists?(dest))
     assert_equal(content, File.read(dest))
   end
+
+  # == Pouf#play == #
+
+  def test_pouf_play
+    assert_nothing_raised { Pouf.play "unexisting-alias" }
+  end
+
 end
