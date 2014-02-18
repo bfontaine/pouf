@@ -4,6 +4,7 @@ require 'tmpdir'
 require 'fileutils'
 
 class PoufCommandsTests < Test::Unit::TestCase
+  include PoufTestsUtils
 
   def setup
     @prev_cmd = ENV['POUF_CMD']
@@ -110,12 +111,35 @@ class PoufCommandsTests < Test::Unit::TestCase
     assert(!File.exists?(f[-1]))
   end
 
+  def test_pouf_rm_wrong_alias
+    _stderr = $stderr
+    $stderr = StringIO.new
+
+    assert_nothing_raised { Pouf.rm 'unknown-alias' }
+    assert_equal("Warning: No sound found for 'unknown-alias'.\n", $stderr.string)
+
+    $stderr = _stderr
+  end
+
   # == Pouf#play_sound == #
 
   def test_pouf_play_sound_with_cmd
     f = "#{@sounds_dir}/foo.ext"
     assert_nothing_raised { Pouf.play_sound f, %w[touch] }
     assert(File.exists?(f))
+  end
+
+  def test_pouf_play_sound_unsupported_no_cmd
+    override_ruby_platform 'unsupported'
+    ENV['POUF_CMD'] = nil
+    _stderr = $stderr
+    $stderr = StringIO.new
+
+    assert_nothing_raised { Pouf.play_sound "#{@sounds_dir}/foo.ext" }
+    assert_equal("pouf is unsupported for your platform for now\n", $stderr.string)
+
+    $stderr = _stderr
+    reset_ruby_platform
   end
 
   # == Pouf#add == #

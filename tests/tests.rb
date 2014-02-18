@@ -6,6 +6,7 @@ Coveralls.wear!
 
 require 'test/unit'
 require 'simplecov'
+require_relative './tests-utils'
 
 test_dir = File.expand_path( File.dirname(__FILE__) )
 
@@ -19,21 +20,10 @@ for t in Dir.glob( File.join( test_dir,  '*_tests.rb' ) )
 end
 
 class PoufTests < Test::Unit::TestCase
+  include PoufTestsUtils
 
   def setup
     ENV['POUF_CMD'] = nil
-  end
-
-  def override_ruby_platform v
-    @original_rplatform = RUBY_PLATFORM unless @original_rplatform
-
-    oldstderr, $stderr = $stderr, StringIO.new
-    Object.send(:const_set, 'RUBY_PLATFORM', v)
-    $stderr = oldstderr
-  end
-
-  def reset_ruby_platform
-    override_ruby_platform @original_rplatform
   end
 
   # == Pouf#version == #
