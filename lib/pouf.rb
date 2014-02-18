@@ -29,7 +29,7 @@ module Pouf
       if cmd
         system *cmd, filename
       else
-        puts 'pouf is unsupported for your platform for now'
+        $stderr.puts 'pouf is unsupported for your platform for now'
       end
     end
 
@@ -80,7 +80,7 @@ module Pouf
         if fs
           FileUtils.rm fs
         else
-          puts "Warning: No sound found for '#{n}'."
+          $stderr.puts "Warning: No sound found for '#{n}'."
         end
       end
     end
