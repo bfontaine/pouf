@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/bfontaine/pouf.png)](https://travis-ci.org/bfontaine/pouf)
 [![Gem Version](https://badge.fury.io/rb/pouf.png)](http://badge.fury.io/rb/pouf)
 [![Coverage Status](https://coveralls.io/repos/bfontaine/pouf/badge.png?branch=master)](https://coveralls.io/r/bfontaine/pouf?branch=master)
+[![Inline docs](http://inch-pages.github.io/github/bfontaine/pouf.png)](http://inch-pages.github.io/github/bfontaine/pouf)
 [![Dependency Status](https://gemnasium.com/bfontaine/pouf.png)](https://gemnasium.com/bfontaine/pouf)
 
 **pouf** plays random sounds from your command-line. It started as a shell
